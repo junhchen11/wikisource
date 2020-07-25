@@ -1,0 +1,82 @@
+CREATE TABLE WikiArticles (
+    URL VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    NumSources INTEGER,
+    Field VARCHAR(30),
+    PRIMARY KEY(URL)
+);
+
+CREATE TABLE SciPapers (
+    RefID INTEGER NOT NULL,
+    ID VARCHAR(255) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    noOfWikiCitations INTEGER,
+    Journal VARCHAR(255),
+    Field VARCHAR(30),
+    Rating VARCHAR(2),
+    Institution VARCHAR(255),
+    Authors VARCHAR(255),
+    PRIMARY KEY(ID)
+);
+
+CREATE TABLE Books (
+    ISBN VARCHAR(13) NOT NULL,
+    RefID INTEGER NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    Authors VARCHAR(255) NOT NULL,
+    Edition VARCHAR(25),
+    PRIMARY KEY(ISBN)
+);
+
+CREATE TABLE ExternalArticles (
+    ArticleURL VARCHAR(255) NOT NULL,
+    RefID INTEGER NOT NULL,
+    RetrievalDate DATE NOT NULL,
+    PRIMARY KEY(ArticleURL)
+);
+
+CREATE TABLE Refs (
+    WikiURL VARCHAR(255) NOT NULL,
+    RefID INTEGER NOT NULL,
+    Type VARCHAR(30) NOT NULL,
+    PRIMARY KEY(RefID, WikiURL)
+);
+
+CREATE TABLE PageCited (
+    WikiURL VARCHAR(255) NOT NULL,
+    ISBN VARCHAR(13) NOT NULL,
+    RefID INTEGER NOT NULL,
+    PageCited INTEGER,
+    Title VARCHAR(255) NOT NULL,
+    Edition VARCHAR(25),
+    PRIMARY KEY(ISBN, WikiURL)
+);
+
+CREATE TABLE ArticleRefs (
+    WikiURL VARCHAR(255) NOT NULL,
+    ArticleURL VARCHAR(255) NOT NULL,
+    RefID INTEGER NOT NULL,
+    RetrievalDate DATE NOT NULL,
+    PRIMARY KEY(WikiURL, ArticleURL)
+);
+
+CREATE TABLE SciRefs (
+    ID VARCHAR(255) NOT NULL,
+    WikiURL VARCHAR(255) NOT NULL,
+    RefID INTEGER NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    noOfWikiCitations INTEGER,
+    Journal VARCHAR(255),
+    Field VARCHAR(30),
+    Rating VARCHAR(2),
+    Institution VARCHAR(255),
+    Authors VARCHAR(255),
+    PRIMARY KEY(ID)
+);
+
+CREATE TABLE Citations (
+    WikiURL VARCHAR(255) NOT NULL,
+    RefID INTEGER NOT NULL,
+    Type VARCHAR(30),
+    PRIMARY KEY(WikiURL, RefID)
+);
