@@ -17,8 +17,8 @@ references = []
 for ref in citations:
     references.append(ref.a.get('href')) #references links are stored in the format href = <link>. These are stored under something called "a", so reference.a contains href = <link>
 print('The no. of references is: ' + str(len(references)))
-# for i in range(1, 10):
-    # print(references[i])
+for i in range(1, 10):
+    print(references[i])
 
 print("\nList of external articles: ")
 ExtArticle=1

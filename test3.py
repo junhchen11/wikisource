@@ -17,14 +17,16 @@ references = []
 for ref in citations:
     references.append(ref.a.get('href')) #references links are stored in the format href = <link>. These are stored under something called "a", so reference.a contains href = <link>
 print('The no. of references is: ' + str(len(references)))
+# for i in range(1, 10):
+#     print(references[i])
 
 print("\nList of external articles: ")
 ExtArticle=1
 for spanTag in soup.find_all('span',class_='reference-accessdate'):
     if (len(spanTag.contents)>2):
-        print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2],  "    URL:    ", spanTag.parent.contents[0])
+        print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2],  "    URL:    ", spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", spanTag.parent.parent.parent.get('id'))
     else:
-        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format",  "URL:    ", spanTag.contents[0])
+        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format",  "URL:    ",  spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", spanTag.parent.parent.parent.get('id'))
     ExtArticle+=1
 
 print("\nList of books: ")
