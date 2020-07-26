@@ -35,6 +35,7 @@ print("\nList of books: ")
 # print(soup.find_all('bdi'))
 bookId=1
 for bditag in soup.find_all('bdi'):
+<<<<<<< HEAD
         # print(bookId, ":    ", bditag.parent.parent, bditag.contents)
         # print(bookId, ":    ", bditag.parent.parent.contents[0], bditag.parent['title'], bditag.contents)
         # print(bookId, ":    ", "Authors:    ", bditag.parent.parent.contents[0], bditag.parent['title'], "  ISBN:   ", bditag.contents)
@@ -51,6 +52,19 @@ scId=1
 for aTag in soup.find_all('cite', class_='citation journal cs1'):
     print(scId, ":","       Authors: ", aTag.contents[0].string)
     scId+=1
+=======
+    # print(bookId, ":    ", bditag.parent.parent, bditag.contents)
+    # print(bookId, ":    ", bditag.parent.parent.contents[0], bditag.parent['title'], bditag.contents)
+    # print(bookId, ":    ", "Authors:    ", bditag.parent.parent.contents[0], bditag.parent['title'], "  ISBN:   ", bditag.contents)
+    print(bookId, ":    ", "ISBN:   ", bditag.contents, "   Authors:    ", bditag.parent.parent.contents[0], "    URL:    ", bditag.parent.parent.contents[0])
+    bookId+=1
+
+    
+print("\nList of scientific papers")
+for aTag in soup.find_all('cite', class_='citation journal cs1'):
+    print("Authors: ", aTag.contents[0].string)
+    
+>>>>>>> b5152de8249f5a5e47c3f8f1a31944a2e9e28a2f
 # for ref in citations:    
     # print(ref.contents)
     # if "Tsitchizris" in ref.contents[0]:
@@ -66,4 +80,8 @@ for aTag in soup.find_all('cite', class_='citation journal cs1'):
 # wikicode = mwparserfromhell.parse(references)
 # for tpl in wikicode.filter_templates():
 #     parsed = parse_citation_template(tpl)
+<<<<<<< HEAD
 #     print(parsed)
+=======
+#     print(parsed)
+>>>>>>> b5152de8249f5a5e47c3f8f1a31944a2e9e28a2f

@@ -1,0 +1,1 @@
+env\Scripts\activate&^pip install -r requirements.txt&^set APP_SETTINGS="config.DevelopmentConfig"
