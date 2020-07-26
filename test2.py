@@ -26,23 +26,31 @@ for spanTag in soup.find_all('span',class_='reference-accessdate'):
     # print(ExtArticle,  ":    ", spanTag.parent.contents[0], "Retrieved on:", spanTag.contents[1].contents)
     # print(spanTag.parent.contents[0], spanTag.contents[1].contents)
     if (len(spanTag.contents)>2):
-        print("Retrieved on:", spanTag.contents[1].contents, spanTag.contents[2], ExtArticle,  ":    ", spanTag.parent.contents[0])
+        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, spanTag.contents[2],  "    URL:    ", spanTag.parent.contents[0])
     else:
-        print("Retrieved on:", spanTag.contents[1].contents, "No year", ExtArticle,  ":    ", spanTag.parent.contents[0])
+        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "No year",  "URL:    ", spanTag.parent.contents[0])
     ExtArticle+=1
 
 print("\nList of books: ")
 # print(soup.find_all('bdi'))
 bookId=1
 for bditag in soup.find_all('bdi'):
-    # print(bookId, ":    ", bditag.parent.parent, bditag.contents)
-    # print(bookId, ":    ", bditag.parent.parent.contents[0], bditag.parent['title'], bditag.contents)
-    # print(bookId, ":    ", "Authors:    ", bditag.parent.parent.contents[0], bditag.parent['title'], "  ISBN:   ", bditag.contents)
-    print(bookId, ":    ", "ISBN:   ", bditag.contents, "   Authors:    ", bditag.parent.parent.contents[0])
+        # print(bookId, ":    ", bditag.parent.parent, bditag.contents)
+        # print(bookId, ":    ", bditag.parent.parent.contents[0], bditag.parent['title'], bditag.contents)
+        # print(bookId, ":    ", "Authors:    ", bditag.parent.parent.contents[0], bditag.parent['title'], "  ISBN:   ", bditag.contents)
+    print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
     bookId+=1
+# print("\nList of books")
+# for bdiTag in soup.find_all('cite', class_='citation book cs1'):
+#     print("Authors: ", bdiTag.contents[0].string, " ISBN:    ", bdiTag.contents)
 
+
+    
 print("\nList of scientific papers")
-
+scId=1
+for aTag in soup.find_all('cite', class_='citation journal cs1'):
+    print(scId, ":","       Authors: ", aTag.contents[0].string)
+    scId+=1
 # for ref in citations:    
     # print(ref.contents)
     # if "Tsitchizris" in ref.contents[0]:
