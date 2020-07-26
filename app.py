@@ -17,8 +17,8 @@ def hello():
     return "Hello World!"
 
 
-@app.route("/sample")
-def hello_name():
+@app.route("/select")
+def select():
     try:
         # Query
         result = db.engine.execute("SELECT * FROM wikiarticles;")
@@ -38,6 +38,19 @@ def hello_name():
     except Exception as e:
 
         return {"message": dict(e)}, "hello sample"
+
+
+@app.route("/insert")
+def insert():
+    try:
+        # Query
+        result = db.engine.execute(
+            "INSERT INTO wikiarticles VALUES ('hello', 'hello', 2, 'hello')"
+        )
+        return result
+    except Exception as e:
+
+        return "succeeded"
 
 
 if __name__ == "__main__":
