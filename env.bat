@@ -1,1 +1,1 @@
-env\Scripts\activate&^pip install -r requirements.txt&^set DATABASE_URL="postgresql:///wikisource"&^set APP_SETTINGS="config.DevelopmentConfig"
+env\Scripts\activate&^pip install -r requirements.txt&^set APP_SETTINGS="config.DevelopmentConfig"
