@@ -1,6 +1,10 @@
 {
+<<<<<<< HEAD
+    "python.pythonPath": "C:\\Users\\asandur2\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe"
+=======
     "python.pythonPath": "C:\\Users\\junhc\\AppData\\Local\\Programs\\Python\\Python38\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.formatting.provider": "black"
+>>>>>>> b5152de8249f5a5e47c3f8f1a31944a2e9e28a2f
 }
