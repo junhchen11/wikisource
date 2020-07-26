@@ -43,8 +43,8 @@ for bditag in soup.find_all('bdi'):
 
     
 print("\nList of scientific papers")
-for aTag in soup.find_all('a', class_='mw-redirect', text='doi'):
-    print("Authors: ",aTag.parent.contents[0])
+for aTag in soup.find_all('cite', class_='citation journal cs1'):
+    print("Authors: ", aTag.contents[0].string)
     
 # for ref in citations:    
     # print(ref.contents)
