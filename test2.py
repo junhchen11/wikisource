@@ -41,8 +41,11 @@ for bditag in soup.find_all('bdi'):
     print(bookId, ":    ", "ISBN:   ", bditag.contents, "   Authors:    ", bditag.parent.parent.contents[0], "    URL:    ", bditag.parent.parent.contents[0])
     bookId+=1
 
+    
 print("\nList of scientific papers")
-
+for aTag in soup.find_all('cite', class_='citation journal cs1'):
+    print("Authors: ", aTag.contents[0].string)
+    
 # for ref in citations:    
     # print(ref.contents)
     # if "Tsitchizris" in ref.contents[0]:
