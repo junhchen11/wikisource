@@ -1,0 +1,1 @@
+env\Scripts\activate&^pip install -r requirements.txt&^set DATABASE_URL="postgresql:///wikisource" 
