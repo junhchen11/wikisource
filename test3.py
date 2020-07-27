@@ -43,7 +43,7 @@ for bditag in soup.find_all('bdi'):
         # print("Error condition")
         pass
     else: 
-        print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents)
+        print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents, "  RefID:  ", uuidOne)
     # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
     bookId+=1
 
