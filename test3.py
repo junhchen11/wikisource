@@ -6,14 +6,14 @@ import numpy as np
 import pandas as pd
 import sys
 from urllib.request import urlopen
-import mwparserfromhell
+import uuid
 # from wikiciteparser.parser import parse_citation_template
 url = 'https://en.wikipedia.org/wiki/Database' #Example URL
 html = urlopen(url)
 soup = BeautifulSoup(html,'html.parser')
 citations = soup.find_all('cite') #Exploring the CSS of the wikipedia website shows that references are stored under the 'cite' class.
 references = []
-
+uuidOne = uuid.uuid1()
 for ref in citations:
     references.append(ref.a.get('href')) #references links are stored in the format href = <link>. These are stored under something called "a", so reference.a contains href = <link>
 print('The no. of references is: ' + str(len(references)))
@@ -22,18 +22,29 @@ print('The no. of references is: ' + str(len(references)))
 
 print("\nList of external articles: ")
 ExtArticle=1
+substring="Book"
 for spanTag in soup.find_all('span',class_='reference-accessdate'):
     if (len(spanTag.contents)>2):
-        print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2],  "    URL:    ", spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", spanTag.parent.parent.parent.get('id'))
+        if substring in spanTag.find_previous_sibling("a").get('href'):
+            # print("Error Condition")
+            # No op, fall through
+            pass
+        else:
+            print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2],  "    URL:    ", spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
     else:
-        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format",  "URL:    ",  spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", spanTag.parent.parent.parent.get('id'))
+        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format",  "URL:    ",  spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
     ExtArticle+=1
 
 print("\nList of books: ")
 # print(soup.find_all('bdi'))
 bookId=1
 for bditag in soup.find_all('bdi'):
-    print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
+    if bditag.parent.find_previous_sibling('i') is None:
+        # print("Error condition")
+        pass
+    else: 
+        print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents, "  RefID:  ", uuidOne)
+    # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
     bookId+=1
 
 
