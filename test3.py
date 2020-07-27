@@ -10,7 +10,7 @@ from urllib.request import urlopen
 import uuid
 
 # from wikiciteparser.parser import parse_citation_template
-url = 'https://en.wikipedia.org/wiki/Australia'  # Example URL
+url = 'https://en.wikipedia.org/wiki/Facebook'  # Example URL
 html = urlopen(url)
 soup = BeautifulSoup(html, 'html.parser')
 citations = soup.find_all(
