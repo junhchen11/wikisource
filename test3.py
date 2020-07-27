@@ -10,7 +10,7 @@ from urllib.request import urlopen
 import uuid
 
 # from wikiciteparser.parser import parse_citation_template
-url = 'https://en.wikipedia.org/wiki/Databases'  # Example URL
+url = 'https://en.wikipedia.org/wiki/Australia'  # Example URL
 html = urlopen(url)
 soup = BeautifulSoup(html, 'html.parser')
 citations = soup.find_all(
@@ -19,28 +19,29 @@ references = []
 uuidOne = uuid.uuid1()
 
 for ref in citations:
-    references.append(ref.a.get(
-        'href'))  # references links are stored in the format href = <link>. These are stored under something called "a", so reference.a contains href = <link>
+    references.append(ref.a.get('href'))  # references links are stored in the format href = <link>. These are stored under something called "a", so reference.a contains href = <link>
 print('The no. of references is: ' + str(len(references)))
 # for i in range(1, 10):
 #     print(references[i])
 
 print("\nList of external articles: ")
 ExtArticle = 1
-substring = "Book"
+substring1 = "Book"
+# substring2 = "Retrieved"  substring2 not in spanTag.contents:
 for spanTag in soup.find_all('span', class_='reference-accessdate'):
-    if (len(spanTag.contents) > 2):
-        if substring in spanTag.find_previous_sibling("a").get('href'):
+    if spanTag.find_previous_sibling("a") is None:
+        pass
+    else:
+        if (len(spanTag.contents) > 2):
+            if substring1 in spanTag.find_previous_sibling("a").get('href'): 
             # print("Error Condition")
             # No op, fall through
-            pass
+                pass
+            else:
+                print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2], "    URL:    ", spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
         else:
-            print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2], "    URL:    ",
-                  spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
-    else:
-        print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ",
-              spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
-    ExtArticle += 1
+            print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ", spanTag.find_previous_sibling("a").get('href'), "  RefID:  ", uuidOne)
+        ExtArticle += 1
 
 print("\nList of books: ")
 # print(soup.find_all('bdi'))
