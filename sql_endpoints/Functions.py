@@ -4,8 +4,32 @@ import os
 from server import app, db
 
 
-@app.route("/wikiarticles", methods=["GET"])
-def wikiarticles():
+@app.route("Info")
+def info():
+    try:
+        # Query
+        result = db.engine.execute("SELECT * FROM info;")
+        if result is None:
+            return {"message": "Invalid query."}
+
+        rows = result.fetchall()
+        # Parse Output
+
+        row_dicts = [dict(row) for row in rows]
+
+        row_data = {"data": row_dicts}
+        # return
+
+        return row_data
+
+    except:
+
+        return "Unexpected error: Please reload the page"
+
+
+########advanced function
+@app.route("/Evaluate", methods=["GET"])
+def Evaluate():
     try:
         # Query
         result = db.engine.execute("SELECT * FROM wikiarticles;")
@@ -28,12 +52,12 @@ def wikiarticles():
 
 
 ###change
-@app.route("/wikiarticles/<article>", methoda=["GET"])
-def selectArticle(article):
+@app.route("/Sources/<articles>", methoda=["GET"])
+def sources(articles):
     try:
         # Query
         result = db.engine.execute(
-            "SELECT url FROM wikiarticles WHERE name = 'Facebook';"
+            "SELECT isbn FROM books UNION SELECT articlename FROM externalArticles UNION SELECT articlename FROM scientificpapers;"
         )
         if result is None:
 
@@ -50,5 +74,5 @@ def selectArticle(article):
 
     except:
 
-        return "This article does not exist"
+        return "These Sources cannot be fetched"
 
