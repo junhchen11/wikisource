@@ -7,13 +7,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = "postgres://hsejzziyqqzzca:64d03603cdbd5c73eac206ed2a287063278bb6911bb12d9cbf4eb1f1b9481c64@ec2-18-211-48-247.compute-1.amazonaws.com:5432/d6pkpcetbeb8ub"
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 db = SQLAlchemy(app)
-
-
-@app.route("/")
-def hello():
-    return "Hello World!"
 
 
 @app.route("/select")
@@ -34,9 +29,9 @@ def select():
 
         return row_data
 
-    except Exception as e:
+    except:
 
-        return {"message": dict(e)}, "hello sample"
+        return "Select Failed"
 
 
 @app.route("/selectFacebook")
@@ -59,9 +54,57 @@ def selectFacebook():
 
         return row_data
 
-    except Exception as e:
+    except:
 
-        return {"message": dict(e)}, "hello sample"
+        return "select Failed"
+
+
+@app.route("/select2")
+def select2():
+    try:
+        # Query
+        result = db.engine.execute("SELECT * FROM books;")
+        if result is None:
+
+            return {"message": "Invalid query."}
+        rows = result.fetchall()
+        # Parse Output
+
+        row_dicts = [dict(row) for row in rows]
+
+        row_data = {"data": row_dicts}
+        # return
+
+        return row_data
+
+    except:
+
+        return "Select Failed"
+
+
+@app.route("/selectSpecific")
+def selectSpecific():
+    try:
+        # Query
+        result = db.engine.execute(
+            "SELECT * FROM externalarticles WHERE retrievaldate >= '01-01-2017'"
+        )
+        if result is None:
+
+            return {"message": "Invalid query."}
+        rows = result.fetchall()
+        # Parse Output
+
+        row_dicts = [dict(row) for row in rows]
+
+        row_data = {"data": row_dicts}
+        # return
+
+        return row_data
+
+    except:
+
+        return "Select Failed"
 
 
 @app.route("/insert")
@@ -86,6 +129,23 @@ def delete():
         return "deletion successful"
     except:
         return "deletion failed"
+
+
+@app.route("/update")
+def update():
+    try:
+        # Query
+        db.engine.execute(
+            "UPDATE wikiarticles SET name = 'not Facebook' WHERE URL = 'https://en.wikipedia.org/wiki/Facebook'"
+        )
+        return "update successful"
+    except:
+        return "update failed"
+
+
+@app.route("/")
+def hello():
+    return "Hello World!"
 
 
 if __name__ == "__main__":
