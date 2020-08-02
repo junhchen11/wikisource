@@ -51,11 +51,20 @@ for bditag in soup.find_all('bdi'):
         # print("Error condition")
         pass
     else:
-        print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ",
-              bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents,
-              "  RefID:  ", uuidOne)
-    # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
+        # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ",
+        #       bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents,
+        #       "  RefID:  ", uuidOne)
+        d={'bookId': bookId, 'ISBN': bditag.parent.contents[0].string, 'Authors': bditag.parent.parent.contents[0].string, 'Title': bditag.parent.find_previous_sibling('i').contents, 'RefID':uuidOne}
+        df = pd.DataFrame(data=d)
     bookId += 1
+df.to_csv('foo.csv')
+sys.exit()
+        # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ",
+        #       bditag.parent.parent.contents[0].string, " Title:   ", bditag.parent.find_previous_sibling('i').contents,
+        #       "  RefID:  ", uuidOne)
+    # print(bookId, ":    ", "    ISBN:    ", bditag.parent.contents[0].string, "   Authors:    ", bditag.parent.parent.contents[0].string)
+    
+
 
 print("\nList of scientific papers")
 scicount = 0
