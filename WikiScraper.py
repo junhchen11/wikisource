@@ -34,7 +34,6 @@ print("\nList of external articles: ")
 extArts = soup.find_all(class_=['citation web cs1', 'citation news cs1', 'citation pressrelease cs1'])
 ExtArticle = 1
 
-# substring2 = "Retrieved"  substring2 not in spanTag.contents:
 # for spanTag in soup.find_all('span', class_='reference-accessdate'):
 #     if spanTag.find_previous_sibling("a") is None:
 #         pass
@@ -47,10 +46,47 @@ ExtArticle = 1
 #             else:
 #                 print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2], "    URL:    ",
 #                       spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
-#         else:
-#             print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ",
-#                   spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
+#         # else:
+#         #     print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ",
+#         #           spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
 #         ExtArticle += 1
+
+extURLS = []
+extTitles = []
+extRefID = []
+artRefs = []
+extDates = []
+
+for artRef in extArts:
+    artRefs.append(artRef)
+    if artRef.a.text.startswith('"'):
+        extTitle = artRef.a.text
+    else:
+        tmp = artRef.find_all(class_="external text")
+        extTitle = tmp[0].text
+    href_tags = artRef.find_all(href=True)
+    tag = href_tags[0].attrs['href']
+    if tag.startswith('/wiki'):
+        artURL = 'https://en.wikipedia.org/wiki' + tag
+    else:
+        artURL = tag
+    tag = artRef.find_all(class_='reference-accessdate')
+    if tag:
+        artContent = tag[0].contents
+        if len(artContent) > 1:
+            artDate = artContent[1].text + artContent[2]
+        else:
+            tmp = artContent[0]
+            tmpDate = tmp.split('Retrieved ')
+            artDate = tmpDate[1]
+    else:
+        artDate = 'NULL'
+    extHash = hash(artURL)
+
+    extRefID.append(extHash)
+    extDates.append(artDate)
+    extURLS.append(artURL)
+    extTitles.append(extTitle)
 
 print("\nList of books: ")
 # print(soup.find_all('bdi'))
@@ -103,8 +139,6 @@ testInt = 0
 # Attributes needed: Title, Authors, RefId, WikiURL, Name, journal; need: institution, field, ID (DOI)
 for aTag in sciRefs:
     authorList = aTag.contents[0].string
-    print(testInt)
-    testInt += 1
     if aTag.findAll(text="doi"):
         trueSciRefs.append(aTag)
         sciCount += 1
@@ -154,6 +188,17 @@ for i in range(0, len(bookAuthors)):
         'refID': bookRefID[i]
     })
 
+for i in range(0, len(extURLS)):
+    jsonData['External Articles'].append({
+        'WikiURL': str(url),
+        'count': i + 1,
+        'Title': extTitles[i],
+        'Retrieval Date': extDates[i],
+        'Article URL': extURLS[i],
+        'refID': extRefID[i]
+    })
+
+print('\n')
 print('Please enter the desired output filename:')
 outputFile = input()
 createJSON(jsonData, outputFile + '.txt')
