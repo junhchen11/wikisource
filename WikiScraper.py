@@ -24,7 +24,8 @@ def listToInt(toConvert):
 
 
 # from wikiciteparser.parser import parse_citation_template
-url = 'https://en.wikipedia.org/wiki/Facebook'  # Example URL
+print('Enter the Wikipedia URL: ')
+url = input()  # Example URL
 html = urlopen(url)
 soup = BeautifulSoup(html, 'html.parser')
 citations = soup.find_all('li', id=re.compile('cite_note'))
@@ -34,22 +35,22 @@ extArts = soup.find_all(class_=['citation web cs1', 'citation news cs1', 'citati
 ExtArticle = 1
 
 # substring2 = "Retrieved"  substring2 not in spanTag.contents:
-for spanTag in soup.find_all('span', class_='reference-accessdate'):
-    if spanTag.find_previous_sibling("a") is None:
-        pass
-    else:
-        if (len(spanTag.contents) > 2):
-            if "book" in spanTag.find_previous_sibling("a").get('href'):
-                # print("Error Condition")
-                # No op, fall through
-                pass
-            else:
-                print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2], "    URL:    ",
-                      spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
-        else:
-            print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ",
-                  spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
-        ExtArticle += 1
+# for spanTag in soup.find_all('span', class_='reference-accessdate'):
+#     if spanTag.find_previous_sibling("a") is None:
+#         pass
+#     else:
+#         if (len(spanTag.contents) > 2):
+#             if "book" in spanTag.find_previous_sibling("a").get('href'):
+#                 # print("Error Condition")
+#                 # No op, fall through
+#                 pass
+#             else:
+#                 print(ExtArticle, "Retrieved on:", spanTag.contents[1].string, spanTag.contents[2], "    URL:    ",
+#                       spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
+#         else:
+#             print(ExtArticle, "Retrieved on:", spanTag.contents[1].contents, "Different date format", "URL:    ",
+#                   spanTag.find_previous_sibling("a").get('href'), "  RefID:  ")
+#         ExtArticle += 1
 
 print("\nList of books: ")
 # print(soup.find_all('bdi'))
@@ -62,27 +63,30 @@ bookPublishers = []
 bookRefs = []
 for bookRef in soup.find_all(class_='citation book cs1'):
     bookRefs.append(bookRef)
-    bookTitle = bookRef.i.string
-    relevantStr = bookRef.text
-    bookStr = relevantStr.split('(')
-    bookAuthorInst = bookStr[0]
+    if bookRef.findAll(text="ISBN"):
+        bookTitle = bookRef.i.string
+        relevantStr = bookRef.text
+        bookStr = relevantStr.split('(')
+        bookAuthorInst = bookStr[0]
 
-    remStr = bookStr[1].split('.')
-    publisher = remStr[2]
+        remStr = bookStr[1].split('.')
+        if len(remStr) > 2:
+            publisher = remStr[2]
+        else:
+            publisherArr = bookStr[2].split('.')
+            publisher = publisherArr[1]
 
-    hashStr = bookTitle + bookAuthorInst
-    bookHash = hash(hashStr)
-
-    isbnRefStr = bookRef.text.split('ISBN')
-    isbnList = list(filter(str.isdigit, isbnRefStr[1]))
-    isbnInt = listToInt(isbnList)
-
-    #  Add all results to arrays
-    ISBN.append(isbnInt)
-    bookTitles.append(bookTitle)
-    bookAuthors.append(bookAuthorInst)
-    bookPublishers.append(publisher)
-    bookRefID.append(bookHash)
+        hashStr = bookTitle + bookAuthorInst
+        bookHash = hash(hashStr)
+        isbnRefStr = bookRef.text.split('ISBN')
+        isbnList = list(filter(str.isdigit, isbnRefStr[1]))
+        isbnInt = listToInt(isbnList)
+        #  Add all results to arrays
+        ISBN.append(isbnInt)
+        bookTitles.append(bookTitle)
+        bookAuthors.append(bookAuthorInst)
+        bookPublishers.append(publisher)
+        bookRefID.append(bookHash)
 
 print("\nList of scientific papers")
 sciCount = 0  # To count the number of papers cited
@@ -94,10 +98,13 @@ authors = []
 dates = []
 refID = []
 journals = []
+testInt = 0
 
 # Attributes needed: Title, Authors, RefId, WikiURL, Name, journal; need: institution, field, ID (DOI)
 for aTag in sciRefs:
     authorList = aTag.contents[0].string
+    print(testInt)
+    testInt += 1
     if aTag.findAll(text="doi"):
         trueSciRefs.append(aTag)
         sciCount += 1
@@ -109,7 +116,10 @@ for aTag in sciRefs:
             titles.append(title[2])
         else:
             titles.append(str1)
-        sciDate = re.search(r'\((.*?)\)', authorList).group(1)  # Regex to get the date which is enclosed in parentheses
+        if '(' in authorList:
+            sciDate = re.search(r'\((.*?)\)', authorList).group(1)  # Regex to get the date which is enclosed in parentheses
+        else:
+            sciDate = 'NULL'
         sciAuthors = authorList.split('(')
         sciAuthors = sciAuthors[0]
         hashCode = hash(titles[sciCount - 1])
@@ -133,7 +143,7 @@ for i in range(0, len(journals)):
         'refID': refID[i]
     })
 
-for i in range(0, len(ISBN)):
+for i in range(0, len(bookAuthors)):
     jsonData['Books'].append({
         'WikiURL': str(url),
         'count': i + 1,
@@ -144,4 +154,6 @@ for i in range(0, len(ISBN)):
         'refID': bookRefID[i]
     })
 
-createJSON(jsonData, 'jsonSci.txt')
+print('Please enter the desired output filename:')
+outputFile = input()
+createJSON(jsonData, outputFile + '.txt')
