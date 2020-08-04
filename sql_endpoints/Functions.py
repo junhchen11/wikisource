@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from server import app, db
 
 
 @app.route("Info")
@@ -27,12 +26,12 @@ def info():
         return "Unexpected error: Please reload the page"
 
 
-########advanced function
+########Should return some simple info like number of diff sources, number of sources we deem reliable
 @app.route("/Evaluate", methods=["GET"])
 def Evaluate():
     try:
         # Query
-        result = db.engine.execute("SELECT * FROM wikiarticles;")
+        result = db.engine.execute("")
         if result is None:
             return {"message": "Invalid query."}
 

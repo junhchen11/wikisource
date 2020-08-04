@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from server import app, db
 
 
 @app.route("/wikiarticles", methods=["GET"])
@@ -27,28 +26,37 @@ def wikiarticles():
         return "Article Does Not Exist"
 
 
-###change
-@app.route("/wikiarticles/<article>", methoda=["GET"])
+# change
+@app.route("/wikiarticles/<article>", methods=["GET", "DELETE"])
 def selectArticle(article):
-    try:
-        # Query
-        result = db.engine.execute(
-            "SELECT url FROM wikiarticles WHERE name = 'Facebook';"
-        )
-        if result is None:
+    if request.method == "GET":
+        try:
+            data = article
+            query = "SELECT url FROM wikiarticles WHERE name = %s;"
+            # Query
 
-            return {"message": "Invalid query."}
-        rows = result.fetchall()
-        # Parse Output
+            result = db.engine.execute(query, data)
+            if result is None:
+                return {"message": "Invalid query."}
 
-        row_dicts = [dict(row) for row in rows]
+            rows = result.fetchall()
+            # Parse Output
 
-        row_data = {"data": row_dicts}
-        # return
+            row_dicts = [dict(row) for row in rows]
 
-        return row_data
+            row_data = {"data": row_dicts}
+            # return
 
-    except:
+            return row_data
 
-        return "This article does not exist"
+        except:
 
+            return "This article does not exist"
+    elif request.method == "DELETE":
+        try:
+            data = article
+            query = "DELETE FROM wikiarticles WHERE name = %s"
+            db.engine.execute(query, data)
+            return "deletion successful"
+        except:
+            return "deletion failed"

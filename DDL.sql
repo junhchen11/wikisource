@@ -1,10 +1,10 @@
-INSERT INTO scipapers
-select url, title, authors, journal,refid from json_populate_recordset(null::anoop, 
-        [
+insert into scipapers
+select title, journal, authors, url ,refid from json_populate_recordset(null::scipapers, 
+        '[
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 1,
-            "title": "\"RadioComics \u2013 Santa Claus and the future of radiology\"",
+            "title": "RadioComics \u2013 Santa Claus and the future of radiology",
             "authors": "Lombardo P, Boehm I, Nairz K ",
             "Published Date": "2020",
             "journal": "Eur J Radiol",
@@ -22,7 +22,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 3,
-            "title": "Siri, Siri, in my hand: Who's the fairest in the land? On the interpretations, illustrations, and implications of artificial intelligence",
+            "title": "Siri, Siri, in my hand: Whos the fairest in the land? On the interpretations, illustrations, and implications of artificial intelligence",
             "authors": "Kaplan, Andreas; Haenlein, Michael ",
             "Published Date": "1 January 2019",
             "journal": "Business Horizons",
@@ -40,7 +40,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 5,
-            "title": "\"Commonsense reasoning and commonsense knowledge in artificial intelligence\"",
+            "title": "Commonsense reasoning and commonsense knowledge in artificial intelligence",
             "authors": "Davis, Ernest; Marcus, Gary ",
             "Published Date": "24 August 2015",
             "journal": "Communications of the ACM",
@@ -58,7 +58,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 7,
-            "title": "\"On the problem of making autonomous vehicles conform to traffic law\"",
+            "title": "On the problem of making autonomous vehicles conform to traffic law",
             "authors": "Prakken, Henry ",
             "Published Date": "31 August 2017",
             "journal": "Artificial Intelligence and Law",
@@ -94,7 +94,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 11,
-            "title": "\"Using Commercial Knowledge Bases for Clinical Decision Support: Opportunities, Hurdles, and Recommendations\"",
+            "title": "Using Commercial Knowledge Bases for Clinical Decision Support: Opportunities, Hurdles, and Recommendations",
             "authors": "Kuperman, G. J.; Reichley, R. M.; Bailey, T. C. ",
             "Published Date": "1 July 2006",
             "journal": "journal of the American Medical Informatics Association",
@@ -167,7 +167,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 19,
             "title": "Human-level control through deep reinforcement learning",
-            "authors": "Mnih, Volodymyr; Kavukcuoglu, Koray; Silver, David; Rusu, Andrei A.; Veness, Joel; Bellemare, Marc G.; Graves, Alex; Riedmiller, Martin; Fidjeland, Andreas K.; Ostrovski, Georg; Petersen, Stig; Beattie, Charles; Sadik, Amir; Antonoglou, Ioannis; King, Helen; Kumaran, Dharshan; Wierstra, Daan; Legg, Shane; Hassabis, Demis ",
+            "authors": "Mnih, Volodymyr; Kavukcuoglu, Koray; Silver, David; Rusu, Andrei A.; Veness, Joel; Bellemare, Marc G.; Graves, Alex; Riedmiller, Martin; Fidjeland, Andreas K.; Ostrovski, Georg; Petersen, Stig; Beattie, Charles; Sadik, Amir; Antonoglou, ",
             "Published Date": "26 February 2015",
             "journal": "Nature",
             "refid": -48894007
@@ -310,7 +310,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 35,
-            "title": "\"Predicting judicial decisions of the European Court of Human Rights: a Natural Language Processing perspective\"",
+            "title": "Predicting judicial decisions of the European Court of Human Rights: a Natural Language Processing perspective",
             "authors": "N. Aletras; D. Tsarapatsanis; D. Preotiuc-Pietro; V. Lampos ",
             "Published Date": "2016",
             "journal": "PeerJ Computer Science",
@@ -319,7 +319,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 36,
-            "title": "\"Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning\"",
+            "title": "Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning",
             "authors": "Kermany, D; Goldbaum, M; Zhang, Kang ",
             "Published Date": "2018",
             "journal": "Cell",
@@ -337,7 +337,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 38,
-            "title": "\"Future Progress in Artificial Intelligence: A Poll Among Experts\"",
+            "title": "Future Progress in Artificial Intelligence: A Poll Among Experts",
             "authors": "M\u00fcller, Vincent C.; Bostrom, Nick ",
             "Published Date": "2014",
             "journal": "AI Matters",
@@ -445,7 +445,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 50,
-            "title": "Siri, Siri in my Hand, who's the Fairest in the Land? On the Interpretations, Illustrations and Implications of Artificial Intelligence",
+            "title": "Siri, Siri in my Hand, whos the Fairest in the Land? On the Interpretations, Illustrations and Implications of Artificial Intelligence",
             "authors": "Kaplan, Andreas; Haenlein, Michael ",
             "Published Date": "2019",
             "journal": "Business Horizons",
@@ -463,7 +463,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 52,
-            "title": "\"The Use of Artificial-Intelligence-Based Ensembles for Intrusion Detection: A Review\"",
+            "title": "The Use of Artificial-Intelligence-Based Ensembles for Intrusion Detection: A Review",
             "authors": "Kumar, Gulshan; Kumar, Krishan ",
             "Published Date": "2012",
             "journal": "Applied Computational Intelligence and Soft Computing",
@@ -472,7 +472,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 53,
-            "title": "\"The changing science of machine learning\"",
+            "title": "The changing science of machine learning",
             "authors": "Langley, Pat ",
             "Published Date": "2011",
             "journal": "Machine Learning",
@@ -499,7 +499,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 56,
-            "title": "\"On the impact of robotics in behavioral and cognitive sciences: from insect navigation to human cognitive development\"",
+            "title": "On the impact of robotics in behavioral and cognitive sciences: from insect navigation to human cognitive development",
             "authors": "Oudeyer, P-Y. ",
             "Published Date": "2010",
             "journal": "IEEE Transactions on Autonomous Mental Development",
@@ -526,7 +526,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 59,
-            "title": "\"Autonomous mental development by robots and animals\"",
+            "title": "Autonomous mental development by robots and animals",
             "authors": "Weng, J.; McClelland; Pentland, A.; Sporns, O.; Stockman, I.; Sur, M.; Thelen, E. ",
             "Published Date": "2001",
             "journal": "Science",
@@ -535,7 +535,7 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 60,
-            "title": "\"The development of an AI journal ranking based on the revealed preference approach\"",
+            "title": "The development of an AI journal ranking based on the revealed preference approach",
             "authors": "Serenko, Alexander ",
             "Published Date": "2010",
             "journal": "journal of Informetrics",
@@ -544,10 +544,11 @@ select url, title, authors, journal,refid from json_populate_recordset(null::ano
         {
             "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
             "count": 61,
-            "title": "\"Comparing the expert survey and citation impact journal ranking methods: Example from the field of Artificial Intelligence\"",
+            "title": "Comparing the expert survey and citation impact journal ranking methods: Example from the field of Artificial Intelligence",
             "authors": "Serenko, Alexander; Michael Dohan ",
             "Published Date": "2011",
             "journal": "journal of Informetrics",
             "refid": 152258738
         }
-    ]);
+    ]'
+);
