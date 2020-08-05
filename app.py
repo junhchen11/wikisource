@@ -94,6 +94,8 @@ def insertArticle():
             query = "INSERT INTO wikiarticles (url, name) VALUES (%s , 'Twitter');"
         elif data == "https://en.wikipedia.org/wiki/Artificial Intelligence":
             query = "INSERT INTO wikiarticles (url, name) VALUES (%s , 'Artificial Intelligence');"
+        elif data == "https://en.wikipedia.org/wiki/United_States":
+            query = "INSERT INTO wikiarticles (url, name) VALUES (%s , 'United States');"
         db.engine.execute(query, data)
     except:
         return "insertion Failed"
@@ -201,7 +203,7 @@ def afunction(aname, isbn):
             doc = docFacebook
         elif aname == "Twitter":
             doc = docTwitter
-        elif aname == "ArtificialIntelligence":
+        elif aname == "Artificial Intelligence":
             doc = docArtificialIntelligence
         print(title)
         print(doc)
@@ -215,13 +217,71 @@ def afunction(aname, isbn):
                     if token not in stop_words and token1 not in stop_words:
                         print(token)
                         print(token1)
-                        sum += token1.similarity(token)
+                        sim = token1.similarity(token)
+                        """ if sim > 0: """
+                        sum += sim
                         count += 1
 
         articleRating = sum/count
         print(articleRating)
+        if aname == "Artificial Intelligence":
+            articleRating += .10
+        if aname == "Facebook":
+            articleRating += .08
+        if aname == "Twitter":
+            articleRating += .06
         return str(articleRating)
     except:
+        return "Select Failed"
+
+
+@app.route("/query1", methods=['GET'])
+def query1():
+    try:
+        # Query
+
+        result = db.engine.execute(
+            "SELECT DISTINCT b1.Title, b1.publisher FROM books b1, books b2 WHERE b1.url <> b2.url AND b1.publisher=b2.publisher AND b1.publisher != ')' ORDER BY publisher")
+        if result is None:
+
+            return {"message": "Invalid query."}
+        rows = result.fetchall()
+        # Parse Output
+
+        row_dicts = [dict(row) for row in rows]
+
+        row_data = {"data": row_dicts}
+        # return
+
+        return row_data
+
+    except:
+
+        return "Select Failed"
+
+
+@app.route("/query2", methods=['GET'])
+def query2():
+    try:
+        # Query
+
+        result = db.engine.execute(
+            "SELECT DISTINCT b1.Title, b1.publisher FROM books b1, books b2 WHERE b1.url <> b2.url AND b1.publisher=b2.publisher AND b1.publisher != ')' ORDER BY publisher")
+        if result is None:
+
+            return {"message": "Invalid query."}
+        rows = result.fetchall()
+        # Parse Output
+
+        row_dicts = [dict(row) for row in rows]
+
+        row_data = {"data": row_dicts}
+        # return
+
+        return row_data
+
+    except:
+
         return "Select Failed"
 
 
